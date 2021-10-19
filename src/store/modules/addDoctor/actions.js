@@ -27,7 +27,17 @@ export default {
     })
   },
 
-  async updateDoctor(){
+  async updateDoctor(context, payload){
+    context.state.isUpdating = true
+    console.log(payload.payload.target)
+    await db.collection('Profiles').doc(payload.payload.target).update({
+      name: payload.payload.update.name,
+      address: payload.payload.update.address,
+      phone: payload.payload.update.phone,
+    }).then(() => {
+      context.dispatch('getDoctors')
+      context.state.isUpdating = false
+    })
 
   }
 

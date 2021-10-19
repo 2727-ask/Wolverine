@@ -7,7 +7,8 @@ export default{
         return{
             doctors:[],
             dlength:0,
-            isLoading:false
+            isLoading:false,
+            isUpdating:false
         }
     },
     mutations,

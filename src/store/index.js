@@ -1,23 +1,17 @@
 import { createStore } from 'vuex';
+import displayModule from './modules/displayModule/index.js';
+import addDoctor from './modules/addDoctor/index.js'
+
 
 const store = createStore({
-    state() {
-        return {
-            displayColor: 'white',
-            displayModeName: 'Light',
-        }
+    namespaced: true,
+    state:{
+        logs:[]
     },
-    mutations: {
-        changeDisplayMode(state) {
-            if (state.displayModeName === 'Light') {
-                state.displayColor = 'black',
-                state.displayModeName = 'Dark'
-            }else{
-                state.displayColor = 'white',
-                state.displayModeName = 'Light'
-            }
-        }
-    }
+    modules:{
+        displayModule:displayModule,
+        addDoctor:addDoctor
+    },
 })
 
 export default store;

@@ -15,7 +15,9 @@
   "dependencies": {
     "bulma": "^0.9.3",
     "core-js": "^3.6.5",
+    "firebase": "^8.9.1",
     "vue": "^3.0.0",
+    "vue-router": "^4.0.12",
     "vuex": "^4.0.2"
   },
   "devDependencies": {

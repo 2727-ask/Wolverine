@@ -28,11 +28,11 @@
           <a class="button is-primary">
             <strong>Sign up</strong>
           </a>
-          <a class="button is-light">
+          <a class="button is-light" @click="getDoctors">
             Log in
           </a>
           <a class="button is-light" @click="changeDisplayMode()">
-            {{ this.$store.state.displayModeName }}
+            {{ this.$store.state.displayModule.displayModeName }}
           </a>
         </div>
       </div>
@@ -42,15 +42,26 @@
 
 <script>
 export default {
+  mounted(){
+    this.getDoctors();
+  },
+
   methods: {
     changeDisplayMode() {
       console.log("Triggered");
       this.$store.commit({
-        type: "changeDisplayMode",
+        type: "displayModule/changeDisplayMode",
       });
-      document.body.style.backgroundColor = this.$store.state.displayColor;
+      document.body.style.backgroundColor = this.$store.state.displayModule.displayColor;
     },
+
+    getDoctors(){
+      console.log('Called');
+      this.$store.dispatch({
+        type:"addDoctor/getDoctors"
+      })
+    }
+
   },
 };
 </script>
-

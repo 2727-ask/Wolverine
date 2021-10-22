@@ -2,9 +2,11 @@
   <div class="card stripcard">
     <header class="card-header">
       <p class="card-header-title">
-        {{doctorName}}
+        <span>{{title}}</span>
+        <span style="margin-left:10%" v-if="totalPrice!=null">Total Price : {{totalPrice}}</span>
+        <span style="margin-left:10%" v-if="cutPrice!=null">Cut Price : {{cutPrice}}</span>
       </p>
-      <router-link :to="/updatedoctor/+slug" class="card-header-icon"  aria-label="more options">
+      <router-link :to="slug1+slug2" class="card-header-icon"  aria-label="more options">
         edit
       </router-link>
     </header>
@@ -14,8 +16,12 @@
 <script>
 export default {
     props:{
-        doctorName:String,
-        slug:String
+        title:String,
+        slug1:String,
+        slug2:String,
+        totalPrice: null,
+        cutPrice:null
+
     }
 }
 </script>

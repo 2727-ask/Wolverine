@@ -42,8 +42,9 @@
 
 <script>
 export default {
-  mounted(){
+  mounted() {
     this.getDoctors();
+    this.getFacilities();
   },
 
   methods: {
@@ -55,13 +56,18 @@ export default {
       document.body.style.backgroundColor = this.$store.state.displayModule.displayColor;
     },
 
-    getDoctors(){
-      console.log('Called');
+    getDoctors() {
+      console.log("Called");
       this.$store.dispatch({
-        type:"addDoctor/getDoctors"
-      })
-    }
+        type: "addDoctor/getDoctors",
+      });
+    },
 
+    getFacilities() {
+      this.$store.dispatch({
+        type: "facilities/fetchFacilities",
+      });
+    },
   },
 };
 </script>

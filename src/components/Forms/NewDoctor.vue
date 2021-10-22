@@ -1,15 +1,18 @@
 <template>
   <div class="container" style="width:70%;margin-top:20vh">
-  <h2 style="font-size:40px;color:#25d1b2">Doctors</h2>
-  <h4 style="font-size:20px;color:#25d1b2">Total : {{$store.state.addDoctor.dlength}}</h4>
+    <h2 style="font-size:40px;color:#25d1b2">Doctors</h2>
+    <h4 style="font-size:20px;color:#25d1b2">
+      Total : {{ $store.state.addDoctor.dlength }}
+    </h4>
     <div class="columns">
       <div class="column">
         <div style="overflow-y: scroll; height:400px;">
           <strip-card
             v-for="doctor in $store.state.addDoctor.doctors"
             :key="doctor"
-            :slug="doctor.phone" 
-            :doctorName="doctor.name"
+            :slug2="doctor.phone"
+            :title="doctor.name"
+            slug1="/updatedoctor/"
           ></strip-card>
         </div>
       </div>
@@ -68,7 +71,7 @@
           </div>
           <button
             class="button is-primary is-rounded"
-            :class="{'is-loading':$store.state.addDoctor.isLoading}"
+            :class="{ 'is-loading': $store.state.addDoctor.isLoading }"
             type="submit"
           >
             Save

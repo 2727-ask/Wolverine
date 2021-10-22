@@ -1,16 +1,20 @@
 import { createStore } from 'vuex';
 import displayModule from './modules/displayModule/index.js';
 import addDoctor from './modules/addDoctor/index.js'
+import facilities from './modules/facilities/index.js'
 
 
 const store = createStore({
     namespaced: true,
     state:{
-        logs:[]
+        logs:[],
+        activateModal:false
     },
     modules:{
         displayModule:displayModule,
-        addDoctor:addDoctor
+        addDoctor:addDoctor,
+        facilities:facilities
+
     },
 })
 

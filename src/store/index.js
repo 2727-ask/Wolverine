@@ -1,20 +1,29 @@
 import { createStore } from 'vuex';
 import displayModule from './modules/displayModule/index.js';
-import addDoctor from './modules/addDoctor/index.js'
-import facilities from './modules/facilities/index.js'
+import addDoctor from './modules/addDoctor/index.js';
+import facilities from './modules/facilities/index.js';
+import records from './modules/Records/index.js';
+import authentication from './modules/Authentication/index';
+
 
 
 const store = createStore({
     namespaced: true,
     state:{
         logs:[],
-        activateModal:false
+        activateModal:false,
+        activateDeleteModal:false,
+        addingRecord:false,
+        conStatus:'',
+        isAuthenticated:false,
+        userName:null,
     },
     modules:{
         displayModule:displayModule,
         addDoctor:addDoctor,
-        facilities:facilities
-
+        facilities:facilities,
+        records:records,
+        authentication:authentication
     },
 })
 

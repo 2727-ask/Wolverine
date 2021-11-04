@@ -1,3 +1,4 @@
+const saveTo = require('../../cred.json');
 var PizZip = require('pizzip');
 var Docxtemplater = require('docxtemplater');
 
@@ -5,6 +6,20 @@ var Docxtemplater = require('docxtemplater');
 var fs = require('fs');
 var path = require('path');
 
+const monthMap = {
+    0: "Jan",
+    1: "Feb",
+    2: "Mar",
+    3: "Apr",
+    4: "May",
+    5: "June",
+    6: "July",
+    7: "Aug",
+    8: "Sept",
+    9: "Oct",
+    10: "Nov",
+    11: "Dec"
+}
 
 class GenerateReport {
     replaceErrors(key, value) {
@@ -27,13 +42,28 @@ class GenerateReport {
         }
         throw error;
     }
-    
-    generator(patientName, age, date, ReferedBy, loc) {
-        console.log(date)
-        console.log('Location is', loc)
 
-        var content = fs.readFileSync(path.resolve('/Users/ashutoshkumbhar/Desktop/hptl_dr_f1/hptl/src/Report/ReportsTemplates/demoReportWord.docx'), 'binary');
+    generator(facName, patientName, age, date, ReferedBy) {
+        console.log('Generating Report');
+        const now = new Date();
+        const year = now.getFullYear();
+        const month = monthMap[now.getMonth()];
 
+        const yearSetupDir = `${saveTo.saveAt}/${year}`;
+        if (!fs.existsSync(yearSetupDir)) {
+            fs.mkdirSync(yearSetupDir);
+        } else {
+            console.log(false)
+        }
+
+        const monthSetupDir = `${saveTo.saveAt}/${year}/${month}`;
+        if (fs.existsSync(yearSetupDir) && !fs.existsSync(monthSetupDir)) {
+            fs.mkdirSync(monthSetupDir);
+        }
+        
+
+        //var content = fs.readFileSync(path.resolve('/Users/ashutoshkumbhar/Desktop/hptl_dr_f1/hptl/src/Report/ReportsTemplates/demoReportWord.docx'), 'binary');
+        var content = fs.readFileSync(path.resolve(`${saveTo.reportTemplatePath}${facName}.doc`), 'binary');
         var zip = new PizZip(content);
         var doc;
         try {
@@ -60,9 +90,12 @@ class GenerateReport {
             .generate({ type: 'nodebuffer' });
         ///Users/ashutoshkumbhar/Desktop/hptl_dr_f1/hptl/src/Report/generated/ 
         // buf is a nodejs buffer, you can either write it to a file or do anything else with it.
-        console.log('Location existed', loc)
-        fs.writeFileSync(path.resolve(`${loc}/${patientName}.docx`), buf);
+        const tnow = new Date();
+        const timeStamp = tnow.getTime();
+        
+        fs.writeFileSync(path.resolve(`${monthSetupDir}/${patientName}${timeStamp}.docx`), buf);
     }
 
 
 }
+export default GenerateReport;

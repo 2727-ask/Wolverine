@@ -1,4 +1,5 @@
 import { db } from '../../../firebaseConfig';
+import router from '../../../router';
 
 export default {
   async getDoctors(context) {
@@ -17,6 +18,7 @@ export default {
   async addDoctor(context, payload) {
     context.state.isLoading = true
     db.collection('Profiles').doc(payload.payload.name).set({
+      id:payload.payload.id,
       name: payload.payload.name,
       address: payload.payload.address,
       phone: payload.payload.phone,
@@ -39,6 +41,21 @@ export default {
       context.state.isUpdating = false
     })
 
+  },
+
+  async deleteDoctor(context,payload){
+    console.log("Delete Doctor Function Triggered");
+    console.log(context,payload);
+    const deleteDoc = db.collection("Profiles").where('id','==',payload.payload);
+    await deleteDoc.get().then(function(querySnapshot){
+      querySnapshot.forEach(function(doc){
+        doc.ref.delete();
+      })
+      context.dispatch('getDoctors')
+      router.push({ path: '/newdoctor' })
+    })
   }
+
+
 
 }

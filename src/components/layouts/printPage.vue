@@ -1,0 +1,67 @@
+<template>
+  <div class="container" id="printMe" style="background:white">
+    <h1 style="text-align:center;font-size:30px">Pawanaai Diagnostic Center</h1>
+    <h3 style="text-align:center">
+      Refferral Reward For Dr {{ $route.params.name }}
+    </h3>
+    <h3 style="text-align:center">( {{ $route.params.date }} )</h3>
+    <hr style="background:black" />
+    <table
+      class="table ml-auto mr-auto"
+      style="width:80vh;background:white;margin-top:30px"
+      v-if="this.$store.state.records.recordsArray.length != 0"
+    >
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Patient Name</th>
+          <th>Diagnosis of</th>
+          <th>Total</th>
+        </tr>
+      </thead>
+      <tfoot>
+        <tr>
+          <th></th>
+          <th></th>
+          <th>Total</th>
+          <th>{{ this.$store.state.records.totalCut }} ₹</th>
+        </tr>
+      </tfoot>
+      <tbody>
+        <tr
+          v-for="payment in this.$store.state.records.recordsArray"
+          :key="payment.patientName"
+        >
+          <td>
+            {{ payment.date }}
+          </td>
+          <td>
+            {{ payment.patientName }}
+          </td>
+          <td>
+            {{ payment.purpose }}
+          </td>
+          <td>
+            {{ payment.cut }}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <!-- <button class="button is-success" @click="printContent">Print Record</button> -->
+</template>
+<script>
+
+export default {
+  data() {
+    return {
+      data: this.$route.params.date,
+    };
+  },
+  methods: {
+    // printContent() {
+    //   window.print()
+    // },
+  },
+};
+</script>

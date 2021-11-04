@@ -10,7 +10,7 @@
           <strip-card
             v-for="doctor in $store.state.addDoctor.doctors"
             :key="doctor"
-            :slug2="doctor.phone"
+            :slug2="doctor.id"
             :title="doctor.name"
             slug1="/updatedoctor/"
           ></strip-card>
@@ -30,6 +30,7 @@
                     type="text"
                     v-model="doctorName"
                     placeholder="eg. Sachin Tendulkar"
+                    required
                   />
                 </p>
               </div>
@@ -46,7 +47,9 @@
                     class="input"
                     type="text"
                     v-model="phno"
+                    title="Phone Number Should have 10 digits" pattern="[1-9]{1}[0-9]{9}"
                     placeholder="Phone Number"
+                    required
                   />
                 </p>
               </div>
@@ -64,13 +67,14 @@
                     type="text"
                     v-model="address"
                     placeholder="eg . Patan"
+                    required
                   />
                 </p>
               </div>
             </div>
           </div>
           <button
-            class="button is-primary is-rounded"
+            class="button is-primary is-rounded ml-5"
             :class="{ 'is-loading': $store.state.addDoctor.isLoading }"
             type="submit"
           >
@@ -85,6 +89,7 @@
 <script>
 import StripCard from "./../layouts/StripCard";
 import Doctor from "../../models/DoctorModel.js";
+import { v4 as uuidv4 } from 'uuid';
 
 export default {
   components: {
@@ -95,6 +100,7 @@ export default {
       const timeElapsed = Date.now();
       const today = new Date(timeElapsed);
       const data = new Doctor(
+        uuidv4(),
         this.doctorName,
         this.address,
         this.phno,

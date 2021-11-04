@@ -15,12 +15,15 @@
   "dependencies": {
     "@electron/remote": "^2.0.1",
     "bulma": "^0.9.3",
-    "core-js": "^3.6.5",
+    "core-js": "^3.19.0",
     "docxtemplater": "^3.26.0",
     "firebase": "^8.9.1",
     "fs-extra": "^10.0.0",
+    "is-online": "^9.0.1",
     "pizzip": "^3.1.1",
+    "uuid": "^8.3.2",
     "vue": "^3.0.0",
+    "vue-html-to-paper": "^1.4.4",
     "vue-router": "^4.0.12",
     "vuex": "^4.0.2"
   },

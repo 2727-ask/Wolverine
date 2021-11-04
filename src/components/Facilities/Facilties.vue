@@ -13,6 +13,7 @@
                 type="text"
                 v-model="facilityName"
                 placeholder="eg. Doppler Scan"
+                required
               />
             </p>
           </div>
@@ -30,7 +31,9 @@
                 class="input"
                 type="number"
                 v-model="totalPrice"
+                min="0"
                 placeholder=""
+                required
               />
             </p>
           </div>
@@ -47,8 +50,10 @@
               <input
                 class="input"
                 type="number"
+                min="0"
                 v-model="cutPrice"
                 placeholder=""
+                required
               />
             </p>
           </div>
@@ -57,7 +62,13 @@
 
       <div class="file has-name is-boxed ml-auto">
         <label class="file-label ml-auto mr-auto">
-          <input class="file-input" type="file" @change="getFileInfo" name="report" />
+          <input
+            class="file-input"
+            type="file"
+            @change="getFileInfo"
+            name="report"
+            required
+          />
           <span class="file-cta">
             <span class="file-icon">
               <i class="fas fa-upload"></i>
@@ -66,11 +77,22 @@
               Choose a file…
             </span>
           </span>
+
           <span class="file-name">
-            eg.docx
+            <h3 v-if="fileName != null || fileName != ''">{{ fileName }}</h3>
           </span>
         </label>
       </div>
+
+      <input
+        type="checkbox"
+        style="margin-left:40%"
+        v-model="confirmed"
+        @change="confirmThisFile"
+        required
+      />
+      <span style="color:#25d1b2;margin-left:30px">Confirm This File</span>
+      <h5 style="text-align:center;color:red" v-if="Log">{{ Log }}</h5>
 
       <center class="mt-3">
         <button
@@ -82,16 +104,20 @@
         </button>
       </center>
     </form>
-    <div class="uk-container" style="margin-top:60px">
+    <div
+      class="uk-container"
+      style="margin-top:60px"
+      v-if="$store.state.facilities.facilities.length"
+    >
       <center>
         <div style="overflow-y: scroll; height:400px;">
-          <table class="table">
+          <table class="table" style="background:transparent">
             <thead>
               <tr>
-                <th>Facility</th>
-                <th>Total Price</th>
-                <th>Cut Price</th>
-                <th>Action</th>
+                <th style="color:#25d1b2;">Facility</th>
+                <th style="color:#25d1b2;">Total Price</th>
+                <th style="color:#25d1b2;">Cut Price</th>
+                <th style="color:#25d1b2;">Action</th>
               </tr>
             </thead>
             <tbody>
@@ -99,10 +125,12 @@
                 v-for="facility in $store.state.facilities.facilities"
                 :key="facility"
               >
-                <td>{{ facility.name }}</td>
-                <td>{{ facility.totalPrice }}</td>
-                <td>{{ facility.cutPrice }}</td>
-                <td>edit</td>
+                <td style="color:#25d1b2;">{{ facility.name }}</td>
+                <td style="color:#25d1b2;">{{ facility.totalPrice }}</td>
+                <td style="color:#25d1b2;">{{ facility.cutPrice }}</td>
+                <td style="color:#25d1b2;">
+                  <router-link :to="slug1 + facility.id">edit</router-link>
+                </td>
               </tr>
             </tbody>
           </table>
@@ -112,38 +140,87 @@
   </div>
 </template>
 <script>
+import move from "../../functions/moveFile.js";
+import fs from "fs";
 import Facility from "../../models/facilityModel.js";
+import { v4 as uuidv4 } from "uuid";
+import saveAt from "../../../cred.json";
 export default {
   components: {},
 
   data() {
     return {
-      fileName:String,
-      fileLocation:String,
-      filetype:String
+      slug1: "/editFacility/",
+      fileName: null,
+      fileLocation: String,
+      filetype: String,
+      Log: "",
     };
   },
   created() {},
   methods: {
     extractData() {
       const facility = new Facility(
+        uuidv4(),
         this.facilityName,
         this.totalPrice,
         this.cutPrice
       );
+
       this.$store.dispatch({
         type: "facilities/addFacility",
         payload: facility,
       });
+
+      this.moveAndRenameFile();
+      this.confirmed = false;
     },
-    getFileInfo(event){
-      const fileInfo = event.target.files;
-      console.log(fileInfo);
-      this.fileName = fileInfo[0].name;
-      this.fileLocation = fileInfo[0].path;
-      this.filetype = fileInfo[0].type;
-      
-    }
+    async moveAndRenameFile() {
+      if (this.confirmed) {
+        await move(
+          `${this.fileLocation}`,
+          `${saveAt.reportTemplatePath}`,
+          (err) => {
+            console.log(err);
+          }
+        );
+        console.log("File Name is", this.fileName);
+        try {
+          if (
+            fs.existsSync(`${saveAt.reportTemplatePath}${this.facilityName}.doc`)
+          ) {
+            console.error("File Already Exixts");
+          } else {
+            await fs.rename(
+              `${saveAt.reportTemplatePath}${this.fileName}`,
+              `${saveAt.reportTemplatePath}${this.facilityName}.doc`,
+              (err) => {
+                console.log(err);
+              }
+            );
+          }
+        } catch (error) {
+          console.error(error);
+        }
+      } else {
+        this.Log = "Please Confirm File Upload";
+      }
+    },
+    getFileInfo(event) {
+      if (this.facilityName == "" || this.facilityName == undefined) {
+        console.log("Facility Name Donot Exist");
+        this.Log = "Please Enter Facility Name First!";
+      } else {
+        this.Log = null;
+        const fileInfo = event.target.files;
+        console.log(fileInfo);
+        this.fileName = fileInfo[0].name;
+        this.fileLocation = fileInfo[0].path;
+        this.filetype = fileInfo[0].type;
+        console.log(this.fileName);
+        // console.log(this.fileLocation)
+      }
+    },
   },
 };
 </script>

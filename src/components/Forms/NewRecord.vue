@@ -130,7 +130,7 @@
 
       <button class="button is-primary is-rounded ml-5">Save Data</button>
     </form>
-    <Modal :patientName="patientName" :patientAge="age" :patientGender="gender" :date="date" :refBy="refBy" :purpose="purpose" :tp="total" :pp="priceAppliedToCustomer" :cut="cutForDoctor" :profit="profit"></Modal>
+    <Modal :patientName="PpatientName" :patientAge="Page" :patientGender="Pgender" :date="Pdate" :refBy="PrefBy" :purpose="Ppurpose" :tp="total" :pp="priceAppliedToCustomer" :cut="cutForDoctor" :profit="profit"></Modal>
 
   </div>
 </template>
@@ -144,6 +144,12 @@ export default {
   },
   data(){
     return{
+      PpatientName:String,
+      Page:String,
+      Pgender:String,
+      Pdate:String,
+      PrefBy:String,
+      Ppurpose:String,
       facilityName:String,
       total:Number,
       priceAppliedToCustomer:Number,
@@ -186,6 +192,12 @@ export default {
     },
     extractData(){  
       this.checkCutApplicableOrNot(); 
+      this.PpatientName = this.patientName;
+      this.Page = this.age;
+      this.Pgender = this.gender;
+      this.Pdate = this.date;
+      this.PrefBy = this.refBy;
+      this.Ppurpose = this.purpose;
       console.log(this.date)
       console.log("Applied Cut",this.cutForDoctor);
       console.log("Total Price",this.total);

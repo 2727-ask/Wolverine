@@ -85,40 +85,7 @@
         </button>
       </center>
 
-    <div class="container my-5">
-      <div class="field is-horizontal" style="margin-left:180px">
-        <div class="columns">
-          <div class="column">
-            <div class="file has-name is-right">
-              <label class="file-label">
-                <input
-                  class="file-input"
-                  type="file"
-                  name="resume"
-                  @change="getFileInfo"
-                />
-                <span class="file-cta">
-                  <span class="file-icon">
-                    <i class="fas fa-upload"></i>
-                  </span>
-                  <span class="file-label">
-                    Choose a file…
-                  </span>
-                </span>
-                <span class="file-name">
-                  {{ this.fileName }}
-                </span>
-              </label>
-            </div>
-          </div>
-          <div class="column">
-            <button class="button is-link is-outlined" @click="updateFile" >
-              Upload
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
+
   </div>
   <DeleteModal :id="id" befName="Facility" befId="Facility" :name="facilityName" title="Delete Facility" type="facilities/deleteFacility" :payload="id"></DeleteModal>
 </template>

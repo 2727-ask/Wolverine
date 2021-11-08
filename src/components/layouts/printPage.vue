@@ -1,4 +1,7 @@
 <template>
+  <div class="container ml-auto mr-auto">
+    <center><button class="button is-success ml-auto mr-auto" @click="printContent">Print</button></center>
+  </div>
   <div class="container" id="printMe" style="background:white">
     <h1 style="text-align:center;font-size:30px">Pawanaai Diagnostic Center</h1>
     <h3 style="text-align:center">
@@ -51,7 +54,7 @@
   <!-- <button class="button is-success" @click="printContent">Print Record</button> -->
 </template>
 <script>
-
+import pre from "print-html-element";
 export default {
   data() {
     return {
@@ -59,9 +62,9 @@ export default {
     };
   },
   methods: {
-    // printContent() {
-    //   window.print()
-    // },
+    printContent() {
+      pre.printElement(document.getElementById('printMe'));
+    },
   },
 };
 </script>

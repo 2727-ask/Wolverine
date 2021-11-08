@@ -21,6 +21,7 @@
     "fs-extra": "^10.0.0",
     "is-online": "^9.0.1",
     "pizzip": "^3.1.1",
+    "print-html-element": "^0.5.1",
     "uuid": "^8.3.2",
     "vue": "^3.0.0",
     "vue-html-to-paper": "^1.4.4",

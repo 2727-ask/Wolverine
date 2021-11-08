@@ -1,13 +1,13 @@
 <template>
   <nav class="navbar" role="navigation" aria-label="main navigation">
     <div class="navbar-brand">
-      <a class="navbar-item" href="https://bulma.io">
+      <a class="navbar-item" href="#">
         <img
-          src="https://bulma.io/images/bulma-logo.png"
+          src="../../assets/wolverineDiP.png"
           alt="Bulma: Free, open source, and modern CSS framework based on Flexbox"
-          width="112"
-          height="28"
+          height="60" width="40"
         />
+        <h3><b>WOLVERINE</b></h3>
       </a>
 
       <a

@@ -48,7 +48,7 @@
         <div class="control">
           <div class="tags has-addons">
             <router-link
-              :to="s1+s2+'/'+s3"
+              :to="s1 + s2 + '/' + s3"
               class="button is-rounded"
               style="background: #F67280;color:white;border:none"
               @click="fetchData($route.params.id, this.month, this.year)"
@@ -77,7 +77,9 @@
           <th></th>
           <th></th>
           <th>Total</th>
-          <th>{{ this.$store.state.records.totalCut }} ₹</th>
+          <th style="color:orange">
+            {{ this.$store.state.records.totalCut }} ₹
+          </th>
           <th></th>
         </tr>
       </tfoot>
@@ -149,9 +151,9 @@ export default {
   },
   data() {
     return {
-      s1:'/printPage/',
-      s2:this.$route.params.id,
-      s3:'',
+      s1: "/printPage/",
+      s2: this.$route.params.id,
+      s3: "",
       monthsMap: {
         "01": "1",
         "02": "2",

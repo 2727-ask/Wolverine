@@ -80,6 +80,7 @@ export default {
         this.patientName,
         this.patientAge,
         this.date,
+        this.patientGender,
         this.refBy
       );
     },

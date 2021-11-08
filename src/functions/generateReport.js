@@ -43,7 +43,7 @@ class GenerateReport {
         throw error;
     }
 
-    generator(facName, patientName, age, date, ReferedBy) {
+    generator(facName, patientName, age, date,gender, ReferedBy) {
         console.log('Generating Report');
         const now = new Date();
         const year = now.getFullYear();
@@ -76,6 +76,7 @@ class GenerateReport {
             patientName: patientName,
             age: age,
             date: date,
+            gender:gender,
             ReferedBy: ReferedBy
         });
 

@@ -7,7 +7,7 @@
     <div class="columns">
       <div class="column">
         <div style="overflow-y: scroll; height:400px;">
-          <strip-card      
+          <strip-card
             v-for="doctor in $store.state.addDoctor.doctors"
             :key="doctor"
             :slug2="doctor.id"
@@ -48,7 +48,8 @@
                     class="input"
                     type="text"
                     v-model="phno"
-                    title="Phone Number Should have 10 digits" pattern="[1-9]{1}[0-9]{9}"
+                    title="Phone Number Should have 10 digits"
+                    pattern="[1-9]{1}[0-9]{9}"
                     placeholder="Phone Number"
                     required
                   />
@@ -90,7 +91,8 @@
 <script>
 import StripCard from "./../layouts/StripCard";
 import Doctor from "../../models/DoctorModel.js";
-import { v4 as uuidv4 } from 'uuid';
+import { v4 as uuidv4 } from "uuid";
+import { dialog } from "@electron/remote";
 
 export default {
   components: {
@@ -98,20 +100,28 @@ export default {
   },
   methods: {
     extractValuesDoctor() {
-      const timeElapsed = Date.now();
-      const today = new Date(timeElapsed);
-      const data = new Doctor(
-        uuidv4(),
-        this.doctorName,
-        this.address,
-        this.phno,
-        today.toDateString()
-      );
+      var ifConnected = window.navigator.onLine;
+      if (ifConnected) {
+        const timeElapsed = Date.now();
+        const today = new Date(timeElapsed);
+        const data = new Doctor(
+          uuidv4(),
+          this.doctorName,
+          this.address,
+          this.phno,
+          today.toDateString()
+        );
 
-      this.$store.dispatch({
-        type: "addDoctor/addDoctor",
-        payload: data,
-      });
+        this.$store.dispatch({
+          type: "addDoctor/addDoctor",
+          payload: data,
+        });
+      } else {
+        dialog.showMessageBoxSync({
+          type: "error",
+          message: "No Internet Connection",
+        });
+      }
     },
   },
 };

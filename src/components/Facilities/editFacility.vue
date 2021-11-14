@@ -93,6 +93,7 @@
 <script>
 
 import DeleteModal from "../../components/layouts/deleteModal"
+import { dialog } from "@electron/remote";
 
 export default {
   components:{
@@ -115,6 +116,8 @@ export default {
     
 
     updateFac(){
+       var ifConnected = window.navigator.onLine;
+      if (ifConnected) {
         this.$store.dispatch({
         type: "facilities/updateFacility",
         payload: {
@@ -123,6 +126,12 @@ export default {
           cutPrice:this.cutPrice
         },
       });
+      }else {
+        dialog.showMessageBoxSync({
+          type: "error",
+          message: "No Internet Connection",
+        });
+      }
     },
 
 

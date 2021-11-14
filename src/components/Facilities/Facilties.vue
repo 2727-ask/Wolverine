@@ -144,6 +144,7 @@ import move from "../../functions/moveFile.js";
 import fs from "fs";
 import Facility from "../../models/facilityModel.js";
 import { v4 as uuidv4 } from "uuid";
+import { dialog } from "@electron/remote";
 export default {
   components: {},
 
@@ -164,20 +165,28 @@ export default {
   },
   methods: {
     extractData() {
-      const facility = new Facility(
-        uuidv4(),
-        this.facilityName,
-        this.totalPrice,
-        this.cutPrice
-      );
+      var ifConnected = window.navigator.onLine;
+      if (ifConnected) {
+        const facility = new Facility(
+          uuidv4(),
+          this.facilityName,
+          this.totalPrice,
+          this.cutPrice
+        );
 
-      this.$store.dispatch({
-        type: "facilities/addFacility",
-        payload: facility,
-      });
+        this.$store.dispatch({
+          type: "facilities/addFacility",
+          payload: facility,
+        });
 
-      this.moveAndRenameFile();
-      this.confirmed = false;
+        this.moveAndRenameFile();
+        this.confirmed = false;
+      } else {
+        dialog.showMessageBoxSync({
+          type: "error",
+          message: "No Internet Connection",
+        });
+      }
     },
     async moveAndRenameFile() {
       if (this.confirmed) {

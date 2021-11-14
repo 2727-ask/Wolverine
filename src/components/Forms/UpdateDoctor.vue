@@ -67,28 +67,39 @@
         </button>
       </center>
     </form>
-    <center><button
-      class="button is-danger is-rounded mr-auto ml-auto mt-5"
-      style="margin-left:30px"
-      @click="deleteDoctorActivateModal"
-    >
-      Delete
-    </button></center>
+    <center>
+      <button
+        class="button is-danger is-rounded mr-auto ml-auto mt-5"
+        style="margin-left:30px"
+        @click="deleteDoctorActivateModal"
+      >
+        Delete
+      </button>
+    </center>
   </div>
-  <DeleteModal title="Delete Doctor" befName="Dr." befId="Doctor" :id="id" :name="currentName" type="addDoctor/deleteDoctor" :payload="id"></DeleteModal>
+  <DeleteModal
+    title="Delete Doctor"
+    befName="Dr."
+    befId="Doctor"
+    :id="id"
+    :name="currentName"
+    type="addDoctor/deleteDoctor"
+    :payload="id"
+  ></DeleteModal>
 </template>
 
 <script>
 import Doctor from "../../models/DoctorModel.js";
-import DeleteModal  from "../layouts/deleteModal";
+import DeleteModal from "../layouts/deleteModal";
+import { dialog } from "@electron/remote";
 export default {
-  components:{
-    DeleteModal
+  components: {
+    DeleteModal,
   },
   data() {
     return {
       flag: false,
-      id:String,
+      id: String,
       currentName: String,
       currentPhone: String,
       currentAddress: String,
@@ -97,9 +108,7 @@ export default {
   created() {
     console.log(this.$route.params.id);
     for (var x in this.$store.state.addDoctor.doctors) {
-      if (
-        this.$route.params.id == this.$store.state.addDoctor.doctors[x].id
-      ) {
+      if (this.$route.params.id == this.$store.state.addDoctor.doctors[x].id) {
         this.id = this.$route.params.id;
         this.doctorName = this.currentName = this.$store.state.addDoctor.doctors[
           x
@@ -127,32 +136,39 @@ export default {
       }
     },
     updateChanges() {
-      this.detectChanges();
-      if (this.flag) {
-        var newUpdate = new Doctor(
-          this.id,
-          this.doctorName,
-          this.address,
-          this.phno,
-          "hello"
-        );
-        this.$store.dispatch({
-          type: "addDoctor/updateDoctor",
-          payload: {
-            update: newUpdate,
-            target: this.currentName,
-          },
-        });
-        console.log("Ready For Update");
+      var ifConnected = window.navigator.onLine;
+      if (ifConnected) {
+        this.detectChanges();
+        if (this.flag) {
+          var newUpdate = new Doctor(
+            this.id,
+            this.doctorName,
+            this.address,
+            this.phno,
+            "hello"
+          );
+          this.$store.dispatch({
+            type: "addDoctor/updateDoctor",
+            payload: {
+              update: newUpdate,
+              target: this.currentName,
+            },
+          });
+          console.log("Ready For Update");
+        } else {
+          console.log("No Changes Detected");
+        }
       } else {
-        console.log("No Changes Detected");
+        dialog.showMessageBoxSync({
+          type: "error",
+          message: "No Internet",
+        });
       }
     },
     deleteDoctorActivateModal() {
       console.log("Triggered Activate Modal");
-      console.log('modal',this.$store.state.activateDeleteModal)
+      console.log("modal", this.$store.state.activateDeleteModal);
       this.$store.state.activateDeleteModal = true;
-
     },
   },
 };

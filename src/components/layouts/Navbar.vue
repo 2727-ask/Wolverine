@@ -3,12 +3,12 @@
     <div class="navbar-brand">
       <a class="navbar-item" href="#">
         <img
-          src="../../assets/wolverineDiP.png"
-          alt="Bulma: Free, open source, and modern CSS framework based on Flexbox"
-          height="60" width="40"
+          src="../../assets/wolverineNavIcon.png"
+          alt="Wolverine"
+          height="60"
         />
-        <h3><b>WOLVERINE</b></h3>
       </a>
+      <H3 class="my-5">ᗯOᒪᐯᗴᖇIᑎᗴ</H3>
 
       <a
         role="button"

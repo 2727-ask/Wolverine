@@ -1,6 +1,12 @@
 <template>
   <div class="container" style="margin-top:10vh">
-  <router-link class="button is-success" style="margin-left:50px" :to="/detailedPayments/+$route.params.docName"> Go Back</router-link>
+    <router-link
+      class="button is-success"
+      style="margin-left:50px"
+      :to="/detailedPayments/ + $route.params.docName"
+    >
+      Go Back</router-link
+    >
     <div class="field is-horizontal">
       <div class="field-label is-normal">
         <label class="label">Payment id : </label>
@@ -69,7 +75,9 @@
       >
         Update
       </button>
-      <button class="button is-danger" @click="activateDeleteModal">Delete</button>
+      <button class="button is-danger" @click="activateDeleteModal">
+        Delete
+      </button>
     </div>
   </div>
   <deleteModal
@@ -131,36 +139,44 @@ export default {
       }
     },
     async updateCut() {
-      this.cut_price = parseInt(this.$refs.cut.value)
-      console.log(this.cut_price)
-      try {
-        this.isUpdating = true;
-        const data = await db
-          .collection("Payments")
-          .doc(this.$route.params.docName)
-          .collection(this.$route.params.year)
-          .doc(this.$route.params.mon.toString())
-          .collection("data")
-          .where("id", "==", this.$route.params.id);
-        data.get().then((doc) => {
-          doc.forEach((mydata) => {
-            mydata.ref.update({
-              cut: this.cut_price,
+      var ifConnected = window.navigator.onLine;
+      if (ifConnected) {
+        this.cut_price = parseInt(this.$refs.cut.value);
+        console.log(this.cut_price);
+        try {
+          this.isUpdating = true;
+          const data = await db
+            .collection("Payments")
+            .doc(this.$route.params.docName)
+            .collection(this.$route.params.year)
+            .doc(this.$route.params.mon.toString())
+            .collection("data")
+            .where("id", "==", this.$route.params.id);
+          data.get().then((doc) => {
+            doc.forEach((mydata) => {
+              mydata.ref.update({
+                cut: this.cut_price,
+              });
             });
+            this.fetchData();
+            this.isUpdating = false;
           });
-          this.fetchData();
-          this.isUpdating = false;
-        });
-      } catch (error) {
+        } catch (error) {
+          dialog.showMessageBoxSync({
+            title: "Error",
+            message: `${error}`,
+            type: "error",
+          });
+        }
+      } else {
         dialog.showMessageBoxSync({
-          title: "Error",
-          message: `${error}`,
           type: "error",
+          message: "No Internet Connection",
         });
       }
     },
     activateDeleteModal() {
-      console.log('Activating....')  
+      console.log("Activating....");
       this.$store.state.activateDeleteModal = true;
     },
   },

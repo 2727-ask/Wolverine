@@ -14,7 +14,7 @@ const store = createStore({
         activateModal:false,
         activateDeleteModal:false,
         addingRecord:false,
-        conStatus:'',
+        conStatus:true,
         isAuthenticated:false,
         userName:null,
     },

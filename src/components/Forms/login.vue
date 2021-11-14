@@ -35,6 +35,7 @@
   </div>
 </template>
 <script>
+import { dialog } from "@electron/remote";
 export default {
   data() {
     return {
@@ -43,17 +44,25 @@ export default {
   },
   mounted() {
     (this.email = "ashutoshkumbhar27@gmail.com"),
-    (this.password = "Asdfghjkl@27");
+      (this.password = "Asdfghjkl@27");
   },
   methods: {
     login() {
-      this.$store.dispatch({
-        type: "authentication/login",
-        payload: {
-          email: this.email,
-          password: this.password,
-        },
-      });
+      var ifConnected = window.navigator.onLine;
+      if (ifConnected) {
+        this.$store.dispatch({
+          type: "authentication/login",
+          payload: {
+            email: this.email,
+            password: this.password,
+          },
+        });
+      } else {
+        dialog.showMessageBoxSync({
+          type: "error",
+          message: "No Internet Connection",
+        });
+      }
     },
   },
 };

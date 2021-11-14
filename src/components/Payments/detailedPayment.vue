@@ -101,19 +101,24 @@
             {{ payment.cut }}
           </td>
           <td>
-            <a style="color:red" @click="activateDeleteModal">delete</a>
-            <deletePayment
-              :id="payment.id"
-              :name="payment.patientName"
-              :docName="payment.refBy"
-              :month="month"
-              :year="year"
-              :payload="payment.id"
-              type="records/deleteRecord"
-              befName="Patient"
-              befId="Record"
-              title="Delete Payment Record"
-            ></deletePayment>
+            <router-link
+              :to="
+                /updatePayment/ +
+                  payment.id +
+                  '/' +
+                  docName +
+                  '/' +
+                  this.year +
+                  '/' +
+                  this.month +
+                  '/' +
+                  payment.patientName +
+                  '/' +
+                  payment.purpose
+              "
+              style="color:blue"
+              >edit</router-link
+            >
           </td>
         </tr>
       </tbody>
@@ -121,7 +126,7 @@
     <div class="container" v-else>
       <div class="columns">
         <div class="column">
-          <img src="../../assets/noInfo.gif" width="480" height="480" />
+          <img src="../../assets/loading.gif" width="380" height="380" />
         </div>
         <div class="column">
           <h3
@@ -144,11 +149,8 @@
 </template>
 
 <script>
-import deletePayment from "../layouts/deleteModal";
 export default {
-  components: {
-    deletePayment,
-  },
+  components: {},
   data() {
     return {
       s1: "/printPage/",
@@ -208,6 +210,11 @@ export default {
           year: year,
         },
       });
+      this.calculateTotalCut();
+    },
+    calculateTotalCut() {
+      console.log("Calculating Cut");
+      console.log(JSON.parse(JSON.stringify(this.$store.state.records.recordsArray)));
     },
 
     getMonth() {

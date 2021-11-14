@@ -47,6 +47,7 @@ export default {
 
     async deleteFacility(context, payload) {
         try {
+            deleteFile(payload.payload.name)
             console.log("Delete Facility Function Triggered");
             console.log(context, payload);
             const deleteDoc = db.collection("Facilities").where('id', '==', payload.payload.id);
@@ -54,13 +55,13 @@ export default {
                 querySnapshot.forEach(function (doc) {
                     doc.ref.delete();
                 })
-                deleteFile(payload.payload.name)
-
-
             }).finally(() => {
                 context.dispatch('fetchFacilities')
                 router.push({ path: '/facilities' })
             })
+
+
+
         } catch (error) {
             console.error(error)
         }

@@ -144,7 +144,6 @@ import move from "../../functions/moveFile.js";
 import fs from "fs";
 import Facility from "../../models/facilityModel.js";
 import { v4 as uuidv4 } from "uuid";
-import saveAt from "../../../cred.json";
 export default {
   components: {},
 
@@ -158,6 +157,11 @@ export default {
     };
   },
   created() {},
+  mounted() {
+    this.$store.dispatch({
+      type: "facilities/fetchFacilities",
+    });
+  },
   methods: {
     extractData() {
       const facility = new Facility(
@@ -179,7 +183,7 @@ export default {
       if (this.confirmed) {
         await move(
           `${this.fileLocation}`,
-          `${saveAt.reportTemplatePath}`,
+          `${fs.readFileSync(process.cwd() + "/saveReportTemplateTo.txt")}`,
           (err) => {
             console.log(err);
           }
@@ -187,13 +191,21 @@ export default {
         console.log("File Name is", this.fileName);
         try {
           if (
-            fs.existsSync(`${saveAt.reportTemplatePath}${this.facilityName}.doc`)
+            fs.existsSync(
+              `${fs.readFileSync(
+                process.cwd() + "/saveReportTemplateTo.txt"
+              )}/${this.facilityName}.doc`
+            )
           ) {
             console.error("File Already Exixts");
           } else {
             await fs.rename(
-              `${saveAt.reportTemplatePath}${this.fileName}`,
-              `${saveAt.reportTemplatePath}${this.facilityName}.doc`,
+              `${fs.readFileSync(
+                process.cwd() + "/saveReportTemplateTo.txt"
+              )}/${this.fileName}`,
+              `${fs.readFileSync(
+                process.cwd() + "/saveReportTemplateTo.txt"
+              )}/${this.facilityName}.doc`,
               (err) => {
                 console.log(err);
               }

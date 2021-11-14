@@ -91,10 +91,8 @@
 </template>
 
 <script>
-import loc from "../../../cred.json";
-import FileOperations from "../../functions/fileOperations.js";
+
 import DeleteModal from "../../components/layouts/deleteModal"
-import move from "../../functions/moveFile.js";
 
 export default {
   components:{
@@ -114,22 +112,7 @@ export default {
     this.getThatFacility();
   },
   methods: {
-    updateFile() {
-      console.log(loc);
-      const fileOpt = new FileOperations();
-      const res = fileOpt.deleteFile(
-        loc.reportTemplatePath + this.originalFacName + ".doc"
-      );
-      console.log("Res is ",res); 
-      if (res) {
-        console.log("Res is ",res);  
-        const moved = move(this.fileLocation, loc.reportTemplatePath);  
-        if(moved){
-            console.log('File Moved Ready to rename')
-            fileOpt.renameFile(`${loc.reportTemplatePath}${this.fileName}`,`${loc.reportTemplatePath}${this.facilityName}.docx`);
-        } 
-      }
-    },
+    
 
     updateFac(){
         this.$store.dispatch({
@@ -142,23 +125,6 @@ export default {
       });
     },
 
-    
-
-    getFileInfo(event) {
-      if (this.facilityName == "" || this.facilityName == undefined) {
-        console.log("Facility Name Donot Exist");
-        this.Log = "Please Enter Facility Name First!";
-      } else {
-        this.Log = null;
-        const fileInfo = event.target.files;
-        console.log(fileInfo);
-        this.fileName = fileInfo[0].name;
-        this.fileLocation = fileInfo[0].path;
-        this.filetype = fileInfo[0].type;
-        console.log(this.fileName);
-        // console.log(this.fileLocation)
-      }
-    },
 
     getThatFacility() {
       console.log(

@@ -1,3 +1,4 @@
+import { dialog } from "@electron/remote";
 import firebase from "firebase";
 import "firebase/auth";
 import router from "../../../router";
@@ -11,17 +12,17 @@ export default {
                 .auth()
                 .signInWithEmailAndPassword(payload.payload.email, payload.payload.password)
                 .then(() => {
-                    alert("Successfully logged in");
+                    dialog.showMessageBoxSync({title:'Logged In',message:'Successfully Logged In',type:'info'});
                     const auth = firebase.auth();
                     context.state.isAuthenticated = true;
                     context.state.userName = auth.currentUser.email;
                     router.push('/')
                 })
                 .catch((error) => {
-                    alert(error.message);
+                    dialog.showMessageBoxSync({title:'Error',message:`${error}`,type:'error'});
                 });
         } catch (error) {
-            console.error(error)
+            dialog.showMessageBoxSync({title:'Error',message:`${error}`,type:'error'});
         }
     },
     async logout(context) {
@@ -29,7 +30,7 @@ export default {
             .auth()
             .signOut()
             .then(() => {
-                alert('Successfully logged out');
+                dialog.showMessageBoxSync({title:'Logged In',message:'Successfully Logged Out',type:'info'});
                 context.state.isAuthenticated = false;
                 context.state.userName = null;
                 router.push('/login');

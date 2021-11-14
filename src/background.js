@@ -3,27 +3,36 @@
 import { app, protocol, BrowserWindow } from 'electron'
 import { createProtocol } from 'vue-cli-plugin-electron-builder/lib'
 import installExtension, { VUEJS3_DEVTOOLS } from 'electron-devtools-installer'
+import { setTimeout } from 'core-js'
+
+
 const isDevelopment = process.env.NODE_ENV !== 'production'
 require('@electron/remote/main').initialize()
+
 
 // Scheme must be registered before the app is ready
 protocol.registerSchemesAsPrivileged([
   { scheme: 'app', privileges: { secure: true, standard: true } }
 ])
 
+
+
 async function createWindow() {
+  
   // Create the browser window.
   const win = new BrowserWindow({
-    width: 800,
-    height: 600,
+    width: 1600,
+    height: 1000,
+    show: true,
     webPreferences: {
-      
+
       // Use pluginOptions.nodeIntegration, leave this alone
       // See nklayman.github.io/vue-cli-plugin-electron-builder/guide/security.html#node-integration for more info
       nodeIntegration: process.env.ELECTRON_NODE_INTEGRATION,
       contextIsolation: !process.env.ELECTRON_NODE_INTEGRATION
     }
   })
+  require("@electron/remote/main").enable(win.webContents)
 
   if (process.env.WEBPACK_DEV_SERVER_URL) {
     // Load the url of the dev server if in development mode
@@ -33,7 +42,9 @@ async function createWindow() {
     createProtocol('app')
     // Load the index.html when not in development
     win.loadURL('app://./index.html')
+
   }
+
 }
 
 // Quit when all windows are closed.
@@ -54,6 +65,7 @@ app.on('activate', () => {
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
+let splash
 app.on('ready', async () => {
   if (isDevelopment && !process.env.IS_TEST) {
     // Install Vue Devtools
@@ -63,8 +75,24 @@ app.on('ready', async () => {
       console.error('Vue Devtools failed to install:', e.toString())
     }
   }
-  createWindow()
+  splash = new BrowserWindow({ width: 810, height: 400, frame: false, alwaysOnTop: true, show: true });
+
+  splash.loadURL(`file://${process.cwd()}/public/splashScreen.html`);
+  setTimeout(function () {
+    splash.destroy();
+    createWindow();
+  }, 7000)
+
+
+
+
+
+
+
 })
+
+
+
 
 // Exit cleanly on request from parent process in development mode.
 if (isDevelopment) {

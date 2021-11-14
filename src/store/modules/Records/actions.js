@@ -1,4 +1,5 @@
 import { db } from "../../../firebaseConfig"
+import router from "../../../router";
 export default {
     async newPayment(context, payload) {
         console.log(context.state);
@@ -53,7 +54,7 @@ export default {
 
     },
     async fetchPayments(context,payload) {
-        context.state.recordsArray = []
+        var records = [];
         var totalCut = 0
 
         console.log("fetchPayments Triggered")
@@ -64,14 +65,14 @@ export default {
             .collection(payload.payload.year)
             .doc(payload.payload.month).collection('data').get().then((payments)=>{
                 payments.forEach((doc)=>{
-                    context.state.recordsArray.push(doc.data())
+                    records.push(doc.data())
                     if(doc.data().cut){
                         totalCut = totalCut + doc.data().cut
-                    }
-                    
+                    }        
                 })
             })
-            context.state.totalCut = totalCut
+            context.commit('fetchPayments',records)
+            context.state.totalCut = parseInt(totalCut)
             console.log("Total Cut",context.state.totalCut)
     },
 
@@ -93,6 +94,8 @@ export default {
             querySnapshot.forEach((doc) => {
                 doc.ref.delete();
             })
+            router.push({path:`/detailedPayments/${payment.docName}`})
+
         })
 
     }

@@ -1,12 +1,12 @@
 <template>
-  <div class="card stripcard">
+  <div class="card stripcard" :class="{bg:flag}">
     <header class="card-header">
       <p class="card-header-title">
         <span>{{title}}</span>
         <span style="margin-left:10%" v-if="totalPrice!=null">Total Price : {{totalPrice}}</span>
         <span style="margin-left:10%" v-if="cutPrice!=null">Cut Price : {{cutPrice}}</span>
       </p>
-      <router-link :to="slug1+slug2" class="card-header-icon"  aria-label="more options">
+      <router-link :to="slug1+slug2" class="card-header-icon"  aria-label="more options" v-if="title!='Self'">
         edit
       </router-link>
     </header>
@@ -22,6 +22,14 @@ export default {
         totalPrice: null,
         cutPrice:null
 
+    },
+    data(){
+      return{
+        bg:{
+          background:'grey',
+        },
+        flag:false,
+      }
     }
 }
 </script>
@@ -32,5 +40,9 @@ export default {
 }
 .card-header-title{
   color:#25d1b2
+}
+
+.bg{
+  background:grey;
 }
 </style>

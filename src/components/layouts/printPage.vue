@@ -3,9 +3,8 @@
     <center><button class="button is-success ml-auto mr-auto" @click="printContent">Print</button></center>
   </div>
   <div class="container" id="printMe" style="background:white">
-    <h1 style="text-align:center;font-size:30px">Pawanaai Diagnostic Center</h1>
-    <h3 style="text-align:center">
-      Refferral Reward For Dr {{ $route.params.name }}
+    <h3 style="text-align:center;font-size:30px">
+       Dr {{ $route.params.name }}
     </h3>
     <h3 style="text-align:center">( {{ $route.params.date }} )</h3>
     <hr style="background:black" />

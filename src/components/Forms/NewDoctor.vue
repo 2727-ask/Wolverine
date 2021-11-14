@@ -7,7 +7,7 @@
     <div class="columns">
       <div class="column">
         <div style="overflow-y: scroll; height:400px;">
-          <strip-card
+          <strip-card      
             v-for="doctor in $store.state.addDoctor.doctors"
             :key="doctor"
             :slug2="doctor.id"
@@ -30,6 +30,7 @@
                     type="text"
                     v-model="doctorName"
                     placeholder="eg. Sachin Tendulkar"
+                    pattern="[^/><\][\\\x22,;|]+"
                     required
                   />
                 </p>

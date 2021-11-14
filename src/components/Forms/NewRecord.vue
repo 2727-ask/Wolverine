@@ -179,7 +179,7 @@ export default {
         this.priceAppliedToCustomer = this.total - this.cutAmount;
         this.profit = this.priceAppliedToCustomer;
         this.cutForDoctor = 0;
-      }else if(this.refBy === 'Other'){
+      }else if(this.refBy === 'Self'){
         console.log("Other Doctor Detected");
         this.cutForDoctor = 0;
         this.profit = this.total;

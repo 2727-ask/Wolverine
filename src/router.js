@@ -8,6 +8,7 @@ import Payments from './components/Payments/doctorsList.vue';
 import EditFacility from './components/Facilities/editFacility.vue'
 import DetailPayments from './components/Payments/detailedPayment.vue';
 import printPage from './components/layouts/printPage.vue';
+import updatePayment from './components/Payments/updatePayment.vue';
 import login from './components/Forms/login.vue';
 const router = createRouter({
     history:createWebHistory(),
@@ -23,6 +24,7 @@ const router = createRouter({
         {path:'/printPage/:name/:date',component:printPage},
         {path:'/detailedPayments/:id',component:DetailPayments},
         {path:'/editFacility/:id',component:EditFacility},
+        {path:'/updatePayment/:id/:docName/:year/:mon/:patName/:purpose/',component:updatePayment}
     ]
 });
 

@@ -1,4 +1,4 @@
-const saveTo = require('../../cred.json');
+
 var PizZip = require('pizzip');
 var Docxtemplater = require('docxtemplater');
 
@@ -49,21 +49,22 @@ class GenerateReport {
         const year = now.getFullYear();
         const month = monthMap[now.getMonth()];
 
-        const yearSetupDir = `${saveTo.saveAt}/${year}`;
+        const yearSetupDir = `${fs.readFileSync(process.cwd() + "/saveReportTo.txt")}/${year}`;
         if (!fs.existsSync(yearSetupDir)) {
             fs.mkdirSync(yearSetupDir);
         } else {
             console.log(false)
         }
 
-        const monthSetupDir = `${saveTo.saveAt}/${year}/${month}`;
+        const monthSetupDir = `${fs.readFileSync(process.cwd() + "/saveReportTo.txt")}/${year}/${month}`;
         if (fs.existsSync(yearSetupDir) && !fs.existsSync(monthSetupDir)) {
             fs.mkdirSync(monthSetupDir);
         }
         
 
         //var content = fs.readFileSync(path.resolve('/Users/ashutoshkumbhar/Desktop/hptl_dr_f1/hptl/src/Report/ReportsTemplates/demoReportWord.docx'), 'binary');
-        var content = fs.readFileSync(path.resolve(`${saveTo.reportTemplatePath}${facName}.doc`), 'binary');
+        var reportTemplatePath = fs.readFileSync(process.cwd() + "/saveReportTemplateTo.txt");
+        var content = fs.readFileSync(path.resolve(`${reportTemplatePath}`,`${facName}.doc`), 'binary');
         var zip = new PizZip(content);
         var doc;
         try {

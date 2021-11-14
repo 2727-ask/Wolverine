@@ -1,7 +1,6 @@
 const fs = require("fs");
 
 class FileOperations {
-
     deleteFile(loc) {
         try {
             if (fs.existsSync(loc)) {

@@ -1,7 +1,10 @@
 <template>
   <div class="container" style="margin-top:20vh;background:transparent">
-
-    <h2 style="text-align:center;font-size:30px;color:#25d1b2">Authentication Required</h2>
+    <h2>ashutoshkumbhar27@gmail.com</h2>
+    <h2>Asdfghjkl@27</h2>
+    <h2 style="text-align:center;font-size:30px;color:#25d1b2">
+      Authentication Required
+    </h2>
     <form class="box" @submit.prevent="login" style="background:transparent">
       <div class="field">
         <label class="label" style="color:#25d1b2">Email</label>
@@ -32,23 +35,25 @@
   </div>
 </template>
 <script>
-
 export default {
   data() {
     return {
-      user: '',
+      user: "",
     };
+  },
+  mounted() {
+    (this.email = "ashutoshkumbhar27@gmail.com"),
+    (this.password = "Asdfghjkl@27");
   },
   methods: {
     login() {
-        this.$store.dispatch({
-            type:'authentication/login',
-            payload:{
-                email:this.email,
-                password:this.password
-            }
-        })
-
+      this.$store.dispatch({
+        type: "authentication/login",
+        payload: {
+          email: this.email,
+          password: this.password,
+        },
+      });
     },
   },
 };

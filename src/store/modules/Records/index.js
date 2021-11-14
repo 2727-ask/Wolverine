@@ -1,4 +1,5 @@
 import actions from "./actions.js";
+import mutations from "./mutations.js";
 export default{
     namespaced:true,
     state(){
@@ -8,5 +9,6 @@ export default{
             totalCut:0
         }
     },
+    mutations,
     actions   
 }

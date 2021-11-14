@@ -1,6 +1,6 @@
 'use strict'
 
-import { app, protocol, BrowserWindow } from 'electron'
+import { app, protocol, BrowserWindow, dialog } from 'electron'
 import { createProtocol } from 'vue-cli-plugin-electron-builder/lib'
 import installExtension, { VUEJS3_DEVTOOLS } from 'electron-devtools-installer'
 import { setTimeout } from 'core-js'
@@ -18,7 +18,7 @@ protocol.registerSchemesAsPrivileged([
 
 
 async function createWindow() {
-  
+
   // Create the browser window.
   const win = new BrowserWindow({
     width: 1600,
@@ -75,13 +75,19 @@ app.on('ready', async () => {
       console.error('Vue Devtools failed to install:', e.toString())
     }
   }
-  splash = new BrowserWindow({ width: 810, height: 400, frame: false, alwaysOnTop: true, show: true });
+  try {
+    splash = new BrowserWindow({ width: 810, height: 400, frame: false, alwaysOnTop: true, show: true });
+    splash.loadURL(`file://${process.cwd()}/public/splashScreen.html`);
+    setTimeout(function () {
+      splash.destroy();
+    }, 3000)
+    createWindow()
+  } catch (error) {
+    dialog.showErrorBox({
+      message: error
+    })
+  }
 
-  splash.loadURL(`file://${process.cwd()}/public/splashScreen.html`);
-  setTimeout(function () {
-    splash.destroy();
-    createWindow();
-  }, 7000)
 
 
 

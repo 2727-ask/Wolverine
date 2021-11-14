@@ -3,31 +3,31 @@
     <ul>
       <li :class="{ isactive: activate === 'newrecord' }">
         <router-link to="/" @click="activate = 'newrecord'">
-          <span>New Record</span>
+          <span :class="{ isactive: activate === 'newrecord' }">New Record</span>
         </router-link>
       </li>
       <li :class="{ isactive: activate === 'doctors' }">
         <router-link to="/newdoctor" @click="activate = 'doctors'">
-          <span>Doctors</span>
+          <span :class="{ isactive: activate === 'doctors' }">Doctors</span>
         </router-link>
       </li>
       <li :class="{ isactive: activate === 'facilities' }">
         <router-link to="/facilities" @click="activate = 'facilities'">
-          <span>Facilities</span>
+          <span :class="{ isactive: activate === 'facilities' }">Facilities</span>
         </router-link>
       </li>
       <li :class="{ isactive: activate === 'payments' }">
         <router-link to="/payments" @click="activate = 'payments'">
-          <span>Payments</span>
+          <span :class="{ isactive: activate === 'payments' }">Payments</span>
         </router-link>
       </li>
       <li :class="{ isactive: activate === 'settings' }">
         <router-link to="/settings" @click="activate = 'settings'">
-          <span>Settings</span>
+          <span :class="{ isactive: activate === 'settings' }">Settings</span>
         </router-link>
       </li>
       <li>
-        <a href="#" @click="refresh">
+        <a href="#" @click="refresh" style="color:orange">
           Refresh
         </a>
       </li>
@@ -66,9 +66,10 @@ export default {
 </script>
 
 <style scoped>
-.active {
+.isactive {
   color: #25d1b2;
-  border: 2px solid #25d1b2;
+  border:none;
+  background:transparent;
   border-radius: 30px;
   padding: 10px;
 }
